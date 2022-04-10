@@ -23,11 +23,14 @@ namespace fe
   private:
     int                WIDTH;
     int                HEIGHT;
+    bool               SHOW_FPS;
     sf::RenderWindow * window;
     sf::Event          event;
     sf::Image          image;
     sf::Texture        texture;
     sf::Sprite         sprite;
+    sf::Clock          clock;
+    sf::Clock          fpsUpdateTimer;
 
     virtual bool onCreate() = 0;
     virtual bool onUpdate() = 0;
@@ -36,7 +39,7 @@ namespace fe
 
   public:
     virtual ~frazzerEngine();
-    bool construct( int width, int height );
+    bool construct( int width, int height, bool showFPS = true, int fpsLimit = 0 );
     void start();
     int  screenWidth() const { return WIDTH; }
     int  screenHeight() const { return HEIGHT; }

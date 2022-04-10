@@ -1,11 +1,16 @@
+#include <iostream>
+
 #include "frazzerEngine.h"
 
-bool fe::frazzerEngine::construct( int width, int height )
+bool fe::frazzerEngine::construct( int width, int height, bool showFPS, int fpsLimit )
 {
-  WIDTH  = width;
-  HEIGHT = height;
+  WIDTH    = width;
+  HEIGHT   = height;
+  SHOW_FPS = showFPS;
 
   window = new sf::RenderWindow( sf::VideoMode( WIDTH, HEIGHT ), appTitle, sf::Style::Close | sf::Style::Titlebar );
+  if( fpsLimit > 0 ) { window->setFramerateLimit( fpsLimit ); }
+
   image.create( WIDTH, HEIGHT, sf::Color::Black );
   texture.loadFromImage( image );
   sprite.setTexture( texture );
@@ -18,6 +23,18 @@ void fe::frazzerEngine::start()
 {
   while( window->isOpen() )
   {
+    float elapsedTime = clock.restart().asSeconds();
+    if( fpsUpdateTimer.getElapsedTime().asSeconds() >= 0.5f )
+    {
+      fpsUpdateTimer.restart();
+      if( SHOW_FPS )
+      {
+        int         fps   = int( 1.0f / elapsedTime );
+        std::string title = appTitle + " | " + std::to_string( fps );
+        window->setTitle( title );
+      }
+    }
+
     while( window->pollEvent( event ) )
     {
       switch( event.type )
