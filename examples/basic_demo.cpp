@@ -5,7 +5,7 @@
 class DemoGame : public fe::frazzerEngine
 {
 public:
-  DemoGame() { appTitle = "DemoGame"; }
+  DemoGame() { appTitle = "Demo Game"; }
 
 private:
   bool onCreate() override { return true; }
